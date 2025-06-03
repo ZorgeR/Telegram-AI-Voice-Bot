@@ -76,10 +76,10 @@ async def inline_query_handler(query: types.InlineQuery):
     logger.info(f"Generating voice message for user {user_id} with voice {voice_id}: {query.query}")
 
     client = ElevenLabs(api_key=ELEVENLABS_API_KEY)
-    audio_stream = client.generate(
+    audio_stream = client.text_to_speech.convert(
         text=query.query,
-        voice=voice_id,
-        model="eleven_multilingual_v2"
+        voice_id=voice_id,
+        model_id="eleven_multilingual_v2"
     )
 
     # Create a temporary file
@@ -169,10 +169,10 @@ async def handle_text_message(message: types.Message):
     processing_message = await message.reply("Generating voice message...")
 
     client = ElevenLabs(api_key=ELEVENLABS_API_KEY)
-    audio_stream = client.generate(
+    audio_stream = client.text_to_speech.convert(
         text=text,
-        voice=voice_id,
-        model="eleven_multilingual_v2"
+        voice_id=voice_id,
+        model_id="eleven_multilingual_v2"
     )
 
     with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as temp_audio:
